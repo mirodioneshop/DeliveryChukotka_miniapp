@@ -1,0 +1,1 @@
+# DeliveryChukotka_miniapp
