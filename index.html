@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Доставка на Чукотку ❄️</title>
+    <title>Доставка на Чукотку ❄️️</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -28,7 +28,9 @@
             margin: 0;
             padding: 12px 16px 90px 16px;
             color: var(--text-primary);
-            background-image: linear-gradient(rgba(13, 19, 26, 0.75), rgba(13, 19, 26, 0.85)), url('bg.jpg');
+            background-color: #0d131a;
+            /* Фоновое изображение */
+            background-image: linear-gradient(rgba(13, 19, 26, 0.75), rgba(13, 19, 26, 0.85)), url('./bg.jpg');
             background-repeat: repeat-y;
             background-position: center top;
             background-size: cover;
@@ -213,7 +215,7 @@
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.80);
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(6px);
             z-index: 200;
             padding: 20px 16px;
@@ -253,7 +255,7 @@
             cursor: pointer;
         }
 
-        /* Карточки ПВЗ с кнопкой копирования */
+        /* Карточки ПВЗ */
         .pvz-card {
             background: var(--input-bg);
             border: 1px solid var(--border-color);
@@ -281,17 +283,14 @@
             font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 4px;
             transition: all 0.2s ease;
         }
 
         .btn-copy.copied {
-            background: #27ae60;
+            background: #27ae60 !important;
         }
 
-        /* Карточки Истории с бейджами статусов */
+        /* Карточки Истории */
         .history-card {
             background: var(--input-bg);
             border: 1px solid var(--border-color);
@@ -319,16 +318,15 @@
             margin-top: 4px;
         }
 
-        /* Цвета статусов */
-        .st-1 { background: rgba(241, 196, 15, 0.2); color: #f1c40f; border: 1px solid #f1c40f; } /* Ожидает подтверждения */
-        .st-2 { background: rgba(52, 152, 219, 0.2); color: #3498db; border: 1px solid #3498db; } /* Заявка принята */
-        .st-3 { background: rgba(155, 89, 182, 0.2); color: #9b59b6; border: 1px solid #9b59b6; } /* Ожидаем поступления */
-        .st-4 { background: rgba(230, 126, 34, 0.2); color: #e67e22; border: 1px solid #e67e22; } /* Поступил на ПВЗ */
-        .st-5 { background: rgba(22, 160, 133, 0.2); color: #16a085; border: 1px solid #16a085; } /* Забран с ПВЗ */
-        .st-6 { background: rgba(243, 156, 18, 0.2); color: #f39c12; border: 1px solid #f39c12; } /* Упакован */
-        .st-7 { background: rgba(41, 128, 185, 0.2); color: #2980b9; border: 1px solid #2980b9; } /* В пути */
-        .st-8 { background: rgba(39, 174, 96, 0.2); color: #27ae60; border: 1px solid #27ae60; }  /* Готов к выдаче */
-        .st-9 { background: rgba(46, 204, 113, 0.3); color: #2ecc71; border: 1px solid #2ecc71; } /* Выдан */
+        .st-1 { background: rgba(241, 196, 15, 0.2); color: #f1c40f; border: 1px solid #f1c40f; }
+        .st-2 { background: rgba(52, 152, 219, 0.2); color: #3498db; border: 1px solid #3498db; }
+        .st-3 { background: rgba(155, 89, 182, 0.2); color: #9b59b6; border: 1px solid #9b59b6; }
+        .st-4 { background: rgba(230, 126, 34, 0.2); color: #e67e22; border: 1px solid #e67e22; }
+        .st-5 { background: rgba(22, 160, 133, 0.2); color: #16a085; border: 1px solid #16a085; }
+        .st-6 { background: rgba(243, 156, 18, 0.2); color: #f39c12; border: 1px solid #f39c12; }
+        .st-7 { background: rgba(41, 128, 185, 0.2); color: #2980b9; border: 1px solid #2980b9; }
+        .st-8 { background: rgba(39, 174, 96, 0.2); color: #27ae60; border: 1px solid #27ae60; }
+        .st-9 { background: rgba(46, 204, 113, 0.3); color: #2ecc71; border: 1px solid #2ecc71; }
     </style>
 </head>
 <body>
@@ -411,27 +409,27 @@
             
             <div class="pvz-card">
                 <div class="pvz-info">🟣 <strong>Wildberries:</strong><br>Мурино, Проспект Авиаторов Балтики 15</div>
-                <button class="btn-copy" onclick="copyAddress(this, 'Мурино, Проспект Авиаторов Балтики 15')">📋 Скопировать</button>
+                <button type="button" class="btn-copy" onclick="copyText(this, 'Мурино, Проспект Авиаторов Балтики 15')">📋 Скопировать</button>
             </div>
 
             <div class="pvz-card">
                 <div class="pvz-info">🔵 <strong>Ozon:</strong><br>Мурино, пр-кт Авиаторов Балтики, 13</div>
-                <button class="btn-copy" onclick="copyAddress(this, 'Мурино, пр-кт Авиаторов Балтики, 13')">📋 Скопировать</button>
+                <button type="button" class="btn-copy" onclick="copyText(this, 'Мурино, пр-кт Авиаторов Балтики, 13')">📋 Скопировать</button>
             </div>
 
             <div class="pvz-card">
                 <div class="pvz-info">🟢 <strong>СДЭК:</strong><br>Мурино, Петровский бульвар 7</div>
-                <button class="btn-copy" onclick="copyAddress(this, 'Мурино, Петровский бульвар 7')">📋 Скопировать</button>
+                <button type="button" class="btn-copy" onclick="copyText(this, 'Мурино, Петровский бульвар 7')">📋 Скопировать</button>
             </div>
 
             <div class="pvz-card">
                 <div class="pvz-info">🟡 <strong>Яндекс Маркет:</strong><br>Мурино, Петровский бульвар 2, корпус 2</div>
-                <button class="btn-copy" onclick="copyAddress(this, 'Мурино, Петровский бульвар 2, корпус 2')">📋 Скопировать</button>
+                <button type="button" class="btn-copy" onclick="copyText(this, 'Мурино, Петровский бульвар 2, корпус 2')">📋 Скопировать</button>
             </div>
 
             <div class="pvz-card">
                 <div class="pvz-info">🔴 <strong>Lamoda:</strong><br>Мурино, Петровский бульвар 6, корпус 2</div>
-                <button class="btn-copy" onclick="copyAddress(this, 'Мурино, Петровский бульвар 6, корпус 2')">📋 Скопировать</button>
+                <button type="button" class="btn-copy" onclick="copyText(this, 'Мурино, Петровский бульвар 6, корпус 2')">📋 Скопировать</button>
             </div>
 
             <p style="font-size: 11px; color: var(--text-secondary); text-align: center; margin-top: 15px;">
@@ -478,34 +476,48 @@
         tg.enableClosingConfirmation();
         lucide.createIcons();
 
-        // Автозаполнение имени/телефона из Telegram
+        // Надежная функция копирования текста в буфер обмена
+        function copyText(btn, text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => showSuccess(btn));
+            } else {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-999999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showSuccess(btn);
+                } catch (err) {
+                    alert("Не удалось скопировать: " + text);
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function showSuccess(btn) {
+            const origText = btn.innerHTML;
+            btn.innerHTML = "✓ Скопировано!";
+            btn.classList.add("copied");
+            setTimeout(() => {
+                btn.innerHTML = origText;
+                btn.classList.remove("copied");
+            }, 2000);
+        }
+
+        // Автозаполнение из профиля Telegram
         function autofillSender() {
             if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
                 const u = tg.initDataUnsafe.user;
                 const nameStr = [u.first_name, u.last_name].filter(Boolean).join(" ");
                 const phoneField = document.getElementById('senderContact');
-                
-                if (u.username) {
-                    phoneField.value = `@${u.username} (${nameStr})`;
-                } else {
-                    phoneField.value = nameStr;
-                }
+                phoneField.value = u.username ? `@${u.username} (${nameStr})` : nameStr;
             } else {
-                alert("Не удалось автоматически прочитать контакт из Telegram. Введите телефон вручную.");
+                alert("Не удалось прочитать контакт. Введите его вручную.");
             }
-        }
-
-        // Скопировать адрес ПВЗ в буфер обмена
-        function copyAddress(btn, text) {
-            navigator.clipboard.writeText(text).then(() => {
-                const origText = btn.innerHTML;
-                btn.innerHTML = "✓ Скопировано!";
-                btn.classList.add("copied");
-                setTimeout(() => {
-                    btn.innerHTML = origText;
-                    btn.classList.remove("copied");
-                }, 2000);
-            });
         }
 
         // Управление модальными окнами
@@ -519,7 +531,6 @@
             document.getElementById('pvzModal').style.display = 'block';
         }
 
-        // Словарь статусов с оформлением
         const statusMap = {
             1: { text: "🟡 Ожидает подтверждения", class: "st-1" },
             2: { text: "🔵 Заявка принята", class: "st-2" },
@@ -563,7 +574,7 @@
             document.getElementById('historyModal').style.display = 'block';
         }
 
-        // Обработка отправки формы
+        // Отправка формы
         const form = document.getElementById('orderForm');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -579,7 +590,6 @@
                 recipientInfo: document.getElementById('recipientInfo').value
             };
 
-            // Сохраняем в локальную историю со статусом "1" (Ожидает подтверждения)
             const currentOrders = JSON.parse(localStorage.getItem('my_orders') || '[]');
             const newOrder = {
                 ...data,
@@ -589,17 +599,13 @@
             currentOrders.unshift(newOrder);
             localStorage.setItem('my_orders', JSON.stringify(currentOrders));
 
-            // Отправляем данные в Telegram
             tg.sendData(JSON.stringify(data));
         });
 
-        // Авто-попытка подстановки контакта при запуске
+        // Авто-заполнение username
         window.addEventListener('DOMContentLoaded', () => {
-            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                const u = tg.initDataUnsafe.user;
-                if (u.username) {
-                    document.getElementById('senderContact').value = `@${u.username}`;
-                }
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.username) {
+                document.getElementById('senderContact').value = `@${tg.initDataUnsafe.user.username}`;
             }
         });
     </script>
