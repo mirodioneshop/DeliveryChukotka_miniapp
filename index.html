@@ -8,14 +8,13 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg-color: #0d131a;
-            --card-bg: #16202c;
-            --input-bg: #202d3d;
-            --accent-color: #d97724; /* Теплый охристо-брусничный акцент */
+            --card-bg: rgba(22, 32, 44, 0.88); /* Полупрозрачная карточка */
+            --input-bg: rgba(32, 45, 61, 0.9);
+            --accent-color: #d97724; /* Охристо-брусничный акцент */
             --accent-gradient: linear-gradient(135deg, #e67e22, #c0392b);
             --text-primary: #f0f4f8;
-            --text-secondary: #90a4ae;
-            --border-color: #2c3e50;
+            --text-secondary: #a0b2c6;
+            --border-color: rgba(255, 255, 255, 0.15);
             --radius: 16px;
         }
 
@@ -26,15 +25,21 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
             margin: 0;
             padding: 12px 16px 90px 16px;
+            color: var(--text-primary);
+            
+            /* Картинка на заднем фоне */
+            background-image: linear-gradient(rgba(13, 19, 26, 0.75), rgba(13, 19, 26, 0.85)), url('bg.jpg');
+            background-repeat: repeat-y;
+            background-position: center top;
+            background-size: cover;
+            background-attachment: fixed;
         }
 
-        /* Традиционный Чукотский орнамент (Полоса) */
+        /* Традиционный орнамент (декоративная полоса) */
         .chukchi-ornament {
-            height: 14px;
+            height: 12px;
             background-image: repeating-linear-gradient(
                 45deg,
                 var(--accent-color) 0,
@@ -43,20 +48,21 @@
                 transparent 16px
             );
             border-radius: 4px;
-            opacity: 0.8;
-            margin-bottom: 12px;
+            opacity: 0.9;
+            margin-bottom: 10px;
         }
 
-        /* Шапка с узором */
+        /* Шапка */
         .header {
             text-align: center;
             margin-bottom: 16px;
             background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             padding: 16px;
             border-radius: var(--radius);
             border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
         }
 
         .header h2 {
@@ -76,9 +82,11 @@
         /* Карточка формы */
         .card {
             background-color: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: var(--radius);
             padding: 18px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
             border: 1px solid var(--border-color);
         }
 
@@ -118,7 +126,7 @@
 
         input:focus, select:focus, textarea:focus {
             border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(217, 119, 36, 0.25);
+            box-shadow: 0 0 0 3px rgba(217, 119, 36, 0.3);
         }
 
         textarea {
@@ -140,7 +148,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 16px rgba(230, 126, 34, 0.35);
+            box-shadow: 0 4px 16px rgba(230, 126, 34, 0.4);
             margin-top: 12px;
             transition: transform 0.1s ease;
         }
@@ -149,13 +157,13 @@
             transform: scale(0.98);
         }
 
-        /* Нижнее меню */
+        /* Нижняя навигация */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: rgba(22, 32, 44, 0.94);
+            background-color: rgba(13, 19, 26, 0.95);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             display: flex;
@@ -170,7 +178,7 @@
             flex-direction: column;
             align-items: center;
             gap: 4px;
-            color: #607d8b;
+            color: #78909c;
             text-decoration: none;
             font-size: 11px;
             font-weight: 500;
