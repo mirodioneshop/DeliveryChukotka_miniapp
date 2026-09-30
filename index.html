@@ -2,116 +2,274 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Оформление заявки на доставку</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Доставка на Чукотку ❄️</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--tg-theme-bg-color, #f4f4f5);
-            color: var(--tg-theme-text-color, #000000);
-            margin: 0;
-            padding: 16px;
+        :root {
+            --bg-color: #0d131a;
+            --card-bg: #16202c;
+            --input-bg: #202d3d;
+            --accent-color: #d97724; /* Теплый охристо-брусничный акцент */
+            --accent-gradient: linear-gradient(135deg, #e67e22, #c0392b);
+            --text-primary: #f0f4f8;
+            --text-secondary: #90a4ae;
+            --border-color: #2c3e50;
+            --radius: 16px;
+        }
+
+        * {
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
-        h2 {
-            margin-top: 0;
-            font-size: 20px;
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 12px 16px 90px 16px;
+        }
+
+        /* Традиционный Чукотский орнамент (Полоса) */
+        .chukchi-ornament {
+            height: 14px;
+            background-image: repeating-linear-gradient(
+                45deg,
+                var(--accent-color) 0,
+                var(--accent-color) 8px,
+                transparent 8px,
+                transparent 16px
+            );
+            border-radius: 4px;
+            opacity: 0.8;
+            margin-bottom: 12px;
+        }
+
+        /* Шапка с узором */
+        .header {
             text-align: center;
+            margin-bottom: 16px;
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
         }
+
+        .header h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+        }
+
+        .header p {
+            margin: 4px 0 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Карточка формы */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+        }
+
         .form-group {
             margin-bottom: 14px;
         }
-        label {
-            display: block;
-            font-weight: 600;
+
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
             margin-bottom: 6px;
-            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
         }
+
+        .form-group label i {
+            width: 16px;
+            height: 16px;
+            color: var(--accent-color);
+        }
+
         input, select, textarea {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background-color: var(--input-bg);
+            color: var(--text-primary);
             font-size: 15px;
-            background-color: var(--tg-theme-secondary-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #000000);
+            outline: none;
+            transition: all 0.2s ease;
         }
-        button {
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(217, 119, 36, 0.25);
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        /* Кнопка отправки */
+        .btn-submit {
             width: 100%;
-            background-color: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #ffffff);
+            background: var(--accent-gradient);
+            color: #ffffff;
             border: none;
-            padding: 14px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 14px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
-            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 16px rgba(230, 126, 34, 0.35);
+            margin-top: 12px;
+            transition: transform 0.1s ease;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* Нижнее меню */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(22, 32, 44, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 16px;
+            border-top: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #607d8b;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 25%;
+        }
+
+        .nav-item i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
         }
     </style>
 </head>
 <body>
 
-    <h2>📦 Заявка на доставку</h2>
+    <div class="header">
+        <div class="chukchi-ornament"></div>
+        <h2>🏔️ Доставка на Чукотку</h2>
+        <p>Санкт-Петербург ➔ Чукотский АО</p>
+    </div>
 
-    <form id="orderForm">
-        <!-- Текстовое поле для населенного пункта -->
-        <div class="form-group">
-            <label for="destination">📍 Населенный пункт назначения:</label>
-            <input type="text" id="destination" placeholder="Например: Анадырь, Лаврентия, Певек" required>
+    <div class="card">
+        <form id="orderForm">
+            <div class="form-group">
+                <label><i data-lucide="map-pin"></i> Населенный пункт</label>
+                <input type="text" id="destination" placeholder="Например: Анадырь, Лаврентия, Певек" required>
+            </div>
+
+            <div class="form-group">
+                <label><i data-lucide="truck"></i> Служба / Маркетплейс</label>
+                <select id="service" required>
+                    <option value="" disabled selected>Выберите сервис</option>
+                    <option value="Авито">Авито (Любой НП)</option>
+                    <option value="Wildberries">Wildberries (Анадырь)</option>
+                    <option value="Ozon">Ozon (Анадырь, Угольные Копи, Певек)</option>
+                    <option value="Почта России">Почта России (Любой НП)</option>
+                    <option value="СДЭК / Яндекс Маркет">СДЭК / Яндекс Маркет</option>
+                    <option value="Другое">Другое</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label><i data-lucide="package"></i> Количество товаров (в шт.)</label>
+                <input type="number" id="itemCount" min="1" placeholder="1" required>
+            </div>
+
+            <div class="form-group">
+                <label><i data-lucide="link"></i> Трек / Ссылка (необязательно)</label>
+                <input type="text" id="trackInfo" placeholder="Номер заказа или код">
+            </div>
+
+            <div class="form-group">
+                <label><i data-lucide="phone"></i> Телефон отправителя</label>
+                <input type="tel" id="senderContact" placeholder="+7 999 000-00-00" required>
+            </div>
+
+            <div class="form-group">
+                <label><i data-lucide="user-check"></i> Получатель (ФИО и телефон)</label>
+                <textarea id="recipientInfo" rows="2" placeholder="Иванов Иван Иванович, +7 999 123-45-67" required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <span>Отправить заявку</span>
+                <i data-lucide="send"></i>
+            </button>
+        </form>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <i data-lucide="home"></i>
+            <span>Главная</span>
         </div>
-
-        <!-- Выбор службы / маркетплейса -->
-        <div class="form-group">
-            <label for="service">🚚 Служба / Маркетплейс:</label>
-            <select id="service" required>
-                <option value="" disabled selected>Выберите сервис</option>
-                <option value="Авито">Авито (Любой НП)</option>
-                <option value="Wildberries">Wildberries (Анадырь)</option>
-                <option value="Ozon">Ozon (Анадырь, Угольные Копи, Певек)</option>
-                <option value="Почта России">Почта России (Любой НП)</option>
-                <option value="СДЭК / Яндекс Маркет">СДЭК / Яндекс Маркет</option>
-                <option value="Другое">Другое</option>
-            </select>
+        <div class="nav-item" onclick="alert('История заказов доступна у менеджера')">
+            <i data-lucide="history"></i>
+            <span>История</span>
         </div>
-
-        <!-- Количество товаров в штуках -->
-        <div class="form-group">
-            <label for="itemCount">🔢 Количество товаров (в шт.):</label>
-            <input type="number" id="itemCount" min="1" placeholder="Например: 1" required>
+        <div class="nav-item" onclick="alert('Адреса ПВЗ доступны в боте')">
+            <i data-lucide="map"></i>
+            <span>ПВЗ</span>
         </div>
-
-        <!-- Трек-номер / ссылка -->
-        <div class="form-group">
-            <label for="trackInfo">🔗 Трек-номер / Ссылка / Код (необязательно):</label>
-            <input type="text" id="trackInfo" placeholder="Номер заказа или трек-код">
+        <div class="nav-item" onclick="tg.close()">
+            <i data-lucide="x-circle"></i>
+            <span>Закрыть</span>
         </div>
-
-        <hr style="border: 0; border-top: 1px solid #ccc; margin: 16px 0;">
-
-        <!-- Отправитель -->
-        <div class="form-group">
-            <label for="senderContact">📞 Телефон отправителя:</label>
-            <input type="tel" id="senderContact" placeholder="+7 999 000-00-00" required>
-        </div>
-
-        <!-- Получатель -->
-        <div class="form-group">
-            <label for="recipientInfo">🎯 ФИО и телефон ПОЛУЧАТЕЛЯ:</label>
-            <textarea id="recipientInfo" rows="2" placeholder="Иванов Иван Иванович, +7 999 123-45-67" required></textarea>
-        </div>
-
-        <button type="submit" id="submitBtn">Отправить заявку</button>
-    </form>
+    </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
+        tg.enableClosingConfirmation();
+
+        lucide.createIcons();
 
         const form = document.getElementById('orderForm');
-
         form.addEventListener('submit', function(e) {
             e.preventDefault();
 
