@@ -8,7 +8,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --card-bg: rgba(22, 32, 44, 0.90);
+            --card-bg: rgba(22, 32, 44, 0.92);
             --input-bg: rgba(32, 45, 61, 0.9);
             --accent-color: #d97724;
             --accent-gradient: linear-gradient(135deg, #e67e22, #c0392b);
@@ -92,7 +92,7 @@
         .form-group label {
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
             font-size: 12px;
             font-weight: 700;
             color: var(--text-secondary);
@@ -101,10 +101,28 @@
             letter-spacing: 0.6px;
         }
 
+        .label-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .form-group label i {
             width: 16px;
             height: 16px;
             color: var(--accent-color);
+        }
+
+        .btn-autofill {
+            background: rgba(217, 119, 36, 0.2);
+            border: 1px solid var(--accent-color);
+            color: #f39c12;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            cursor: pointer;
+            text-transform: none;
+            letter-spacing: 0;
         }
 
         input, select, textarea {
@@ -190,12 +208,12 @@
             color: var(--accent-color);
         }
 
-        /* Модальные окна для ПВЗ и Истории */
+        /* Модальные окна */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.80);
             backdrop-filter: blur(6px);
             z-index: 200;
             padding: 20px 16px;
@@ -235,27 +253,82 @@
             cursor: pointer;
         }
 
-        .pvz-list-item {
+        /* Карточки ПВЗ с кнопкой копирования */
+        .pvz-card {
             background: var(--input-bg);
             border: 1px solid var(--border-color);
-            padding: 12px;
+            padding: 12px 14px;
             border-radius: 12px;
             margin-bottom: 10px;
-            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pvz-info {
+            font-size: 13px;
             line-height: 1.4;
         }
 
+        .btn-copy {
+            background: var(--accent-gradient);
+            border: none;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy.copied {
+            background: #27ae60;
+        }
+
+        /* Карточки Истории с бейджами статусов */
         .history-card {
             background: var(--input-bg);
             border: 1px solid var(--border-color);
-            padding: 12px;
+            padding: 14px;
             border-radius: 12px;
             margin-bottom: 12px;
             font-size: 13px;
         }
-        .history-card strong {
-            color: var(--accent-color);
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        /* Цвета статусов */
+        .st-1 { background: rgba(241, 196, 15, 0.2); color: #f1c40f; border: 1px solid #f1c40f; } /* Ожидает подтверждения */
+        .st-2 { background: rgba(52, 152, 219, 0.2); color: #3498db; border: 1px solid #3498db; } /* Заявка принята */
+        .st-3 { background: rgba(155, 89, 182, 0.2); color: #9b59b6; border: 1px solid #9b59b6; } /* Ожидаем поступления */
+        .st-4 { background: rgba(230, 126, 34, 0.2); color: #e67e22; border: 1px solid #e67e22; } /* Поступил на ПВЗ */
+        .st-5 { background: rgba(22, 160, 133, 0.2); color: #16a085; border: 1px solid #16a085; } /* Забран с ПВЗ */
+        .st-6 { background: rgba(243, 156, 18, 0.2); color: #f39c12; border: 1px solid #f39c12; } /* Упакован */
+        .st-7 { background: rgba(41, 128, 185, 0.2); color: #2980b9; border: 1px solid #2980b9; } /* В пути */
+        .st-8 { background: rgba(39, 174, 96, 0.2); color: #27ae60; border: 1px solid #27ae60; }  /* Готов к выдаче */
+        .st-9 { background: rgba(46, 204, 113, 0.3); color: #2ecc71; border: 1px solid #2ecc71; } /* Выдан */
     </style>
 </head>
 <body>
@@ -266,16 +339,20 @@
         <p>Санкт-Петербург ➔ Чукотский АО</p>
     </div>
 
-    <!-- ОСНОВНАЯ ФОРМА -->
+    <!-- ФОРМА ЗАЯВКИ -->
     <div class="card" id="mainFormCard">
         <form id="orderForm">
             <div class="form-group">
-                <label><i data-lucide="map-pin"></i> Населенный пункт</label>
+                <label>
+                    <span class="label-title"><i data-lucide="map-pin"></i> Населенный пункт</span>
+                </label>
                 <input type="text" id="destination" placeholder="Например: Анадырь, Лаврентия, Певек" required>
             </div>
 
             <div class="form-group">
-                <label><i data-lucide="truck"></i> Служба / Маркетплейс</label>
+                <label>
+                    <span class="label-title"><i data-lucide="truck"></i> Служба / Маркетплейс</span>
+                </label>
                 <select id="service" required>
                     <option value="" disabled selected>Выберите сервис</option>
                     <option value="Авито">Авито (Любой НП)</option>
@@ -288,22 +365,31 @@
             </div>
 
             <div class="form-group">
-                <label><i data-lucide="package"></i> Количество товаров (в шт.)</label>
+                <label>
+                    <span class="label-title"><i data-lucide="package"></i> Количество товаров (в шт.)</span>
+                </label>
                 <input type="number" id="itemCount" min="1" placeholder="1" required>
             </div>
 
             <div class="form-group">
-                <label><i data-lucide="link"></i> Трек / Ссылка (необязательно)</label>
+                <label>
+                    <span class="label-title"><i data-lucide="link"></i> Трек / Ссылка (необязательно)</span>
+                </label>
                 <input type="text" id="trackInfo" placeholder="Номер заказа или код">
             </div>
 
             <div class="form-group">
-                <label><i data-lucide="phone"></i> Телефон отправителя</label>
+                <label>
+                    <span class="label-title"><i data-lucide="phone"></i> Телефон отправителя</span>
+                    <button type="button" class="btn-autofill" onclick="autofillSender()">⚡ Из Telegram</button>
+                </label>
                 <input type="tel" id="senderContact" placeholder="+7 999 000-00-00" required>
             </div>
 
             <div class="form-group">
-                <label><i data-lucide="user-check"></i> Получатель (ФИО и телефон)</label>
+                <label>
+                    <span class="label-title"><i data-lucide="user-check"></i> Получатель (ФИО и телефон)</span>
+                </label>
                 <textarea id="recipientInfo" rows="2" placeholder="Иванов Иван Иванович, +7 999 123-45-67" required></textarea>
             </div>
 
@@ -323,24 +409,33 @@
                 <span>Адреса ПВЗ (Мурино)</span>
             </div>
             
-            <div class="pvz-list-item">
-                🟣 <strong>Wildberries:</strong><br>Мурино, Проспект Авиаторов Балтики 15
+            <div class="pvz-card">
+                <div class="pvz-info">🟣 <strong>Wildberries:</strong><br>Мурино, Проспект Авиаторов Балтики 15</div>
+                <button class="btn-copy" onclick="copyAddress(this, 'Мурино, Проспект Авиаторов Балтики 15')">📋 Скопировать</button>
             </div>
-            <div class="pvz-list-item">
-                🔵 <strong>Ozon:</strong><br>Мурино, пр-кт Авиаторов Балтики, 13
+
+            <div class="pvz-card">
+                <div class="pvz-info">🔵 <strong>Ozon:</strong><br>Мурино, пр-кт Авиаторов Балтики, 13</div>
+                <button class="btn-copy" onclick="copyAddress(this, 'Мурино, пр-кт Авиаторов Балтики, 13')">📋 Скопировать</button>
             </div>
-            <div class="pvz-list-item">
-                🟢 <strong>СДЭК:</strong><br>Мурино, Петровский бульвар 7
+
+            <div class="pvz-card">
+                <div class="pvz-info">🟢 <strong>СДЭК:</strong><br>Мурино, Петровский бульвар 7</div>
+                <button class="btn-copy" onclick="copyAddress(this, 'Мурино, Петровский бульвар 7')">📋 Скопировать</button>
             </div>
-            <div class="pvz-list-item">
-                🟡 <strong>Яндекс Маркет:</strong><br>Мурино, Петровский бульвар 2, корпус 2
+
+            <div class="pvz-card">
+                <div class="pvz-info">🟡 <strong>Яндекс Маркет:</strong><br>Мурино, Петровский бульвар 2, корпус 2</div>
+                <button class="btn-copy" onclick="copyAddress(this, 'Мурино, Петровский бульвар 2, корпус 2')">📋 Скопировать</button>
             </div>
-            <div class="pvz-list-item">
-                🔴 <strong>Lamoda:</strong><br>Мурино, Петровский бульвар 6, корпус 2
+
+            <div class="pvz-card">
+                <div class="pvz-info">🔴 <strong>Lamoda:</strong><br>Мурино, Петровский бульвар 6, корпус 2</div>
+                <button class="btn-copy" onclick="copyAddress(this, 'Мурино, Петровский бульвар 6, корпус 2')">📋 Скопировать</button>
             </div>
-            
-            <p style="font-size: 12px; color: var(--text-secondary); text-align: center; margin-top: 15px;">
-                📌 Заказы и посылки можно оформлять или направлять на любой из указанных пунктов.
+
+            <p style="font-size: 11px; color: var(--text-secondary); text-align: center; margin-top: 15px;">
+                📌 Скопируйте нужный адрес и укажите его при оформлении заказа на маркетплейсе.
             </p>
         </div>
     </div>
@@ -353,13 +448,11 @@
                 <i data-lucide="history"></i>
                 <span>История заказов</span>
             </div>
-            <div id="historyList">
-                <!-- Динамически заполняется через JS -->
-            </div>
+            <div id="historyList"></div>
         </div>
     </div>
 
-    <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+    <!-- НИЖНЕЕ МЕНЮ -->
     <div class="bottom-nav">
         <div class="nav-item active" onclick="closeModals()">
             <i data-lucide="home"></i>
@@ -383,8 +476,37 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.enableClosingConfirmation();
-
         lucide.createIcons();
+
+        // Автозаполнение имени/телефона из Telegram
+        function autofillSender() {
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                const u = tg.initDataUnsafe.user;
+                const nameStr = [u.first_name, u.last_name].filter(Boolean).join(" ");
+                const phoneField = document.getElementById('senderContact');
+                
+                if (u.username) {
+                    phoneField.value = `@${u.username} (${nameStr})`;
+                } else {
+                    phoneField.value = nameStr;
+                }
+            } else {
+                alert("Не удалось автоматически прочитать контакт из Telegram. Введите телефон вручную.");
+            }
+        }
+
+        // Скопировать адрес ПВЗ в буфер обмена
+        function copyAddress(btn, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const origText = btn.innerHTML;
+                btn.innerHTML = "✓ Скопировано!";
+                btn.classList.add("copied");
+                setTimeout(() => {
+                    btn.innerHTML = origText;
+                    btn.classList.remove("copied");
+                }, 2000);
+            });
+        }
 
         // Управление модальными окнами
         function closeModals() {
@@ -397,29 +519,51 @@
             document.getElementById('pvzModal').style.display = 'block';
         }
 
+        // Словарь статусов с оформлением
+        const statusMap = {
+            1: { text: "🟡 Ожидает подтверждения", class: "st-1" },
+            2: { text: "🔵 Заявка принята", class: "st-2" },
+            3: { text: "⏳ Ожидаем поступления на ПВЗ", class: "st-3" },
+            4: { text: "📦 Поступил на ПВЗ (Готов к забору)", class: "st-4" },
+            5: { text: "🛍️ Забран с ПВЗ", class: "st-5" },
+            6: { text: "🏷️ Упакован и промаркирован", class: "st-6" },
+            7: { text: "✈️ Отправлен / В пути", class: "st-7" },
+            8: { text: "🏢 Готов к выдаче", class: "st-8" },
+            9: { text: "🟢 Выдан получателю", class: "st-9" }
+        };
+
         function openHistory() {
             closeModals();
             const historyList = document.getElementById('historyList');
             const orders = JSON.parse(localStorage.getItem('my_orders') || '[]');
 
             if (orders.length === 0) {
-                historyList.innerHTML = '<p style="text-align:center; color: var(--text-secondary);">У вас пока нет отправленных заявок.</p>';
+                historyList.innerHTML = '<p style="text-align:center; color: var(--text-secondary); padding: 20px 0;">У вас пока нет отправленных заявок.</p>';
             } else {
-                historyList.innerHTML = orders.map((o, idx) => `
-                    <div class="history-card">
-                        <div><strong>Заявка #${orders.length - idx}</strong> (${o.date})</div>
-                        <div style="margin-top: 6px;">📍 <strong>НП:</strong> ${o.destination}</div>
-                        <div>🚚 <strong>Сервис:</strong> ${o.service}</div>
-                        <div>🔢 <strong>Кол-во:</strong> ${o.itemCount}</div>
-                        <div>🎯 <strong>Получатель:</strong> ${o.recipientInfo}</div>
-                    </div>
-                `).join('');
+                historyList.innerHTML = orders.map((o, idx) => {
+                    const st = statusMap[o.statusCode || 1];
+                    return `
+                        <div class="history-card">
+                            <div class="history-header">
+                                <div>
+                                    <strong>Заявка #${orders.length - idx}</strong>
+                                    <div style="font-size: 11px; color: var(--text-secondary);">${o.date}</div>
+                                </div>
+                                <span class="status-badge ${st.class}">${st.text}</span>
+                            </div>
+                            <div>📍 <strong>НП:</strong> ${o.destination}</div>
+                            <div>🚚 <strong>Сервис:</strong> ${o.service}</div>
+                            <div>🔢 <strong>Кол-во:</strong> ${o.itemCount}</div>
+                            <div>🎯 <strong>Получатель:</strong> ${o.recipientInfo}</div>
+                        </div>
+                    `;
+                }).join('');
             }
 
             document.getElementById('historyModal').style.display = 'block';
         }
 
-        // Обработка формы
+        // Обработка отправки формы
         const form = document.getElementById('orderForm');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -435,17 +579,28 @@
                 recipientInfo: document.getElementById('recipientInfo').value
             };
 
-            // Сохраняем в локальную историю устройства
+            // Сохраняем в локальную историю со статусом "1" (Ожидает подтверждения)
             const currentOrders = JSON.parse(localStorage.getItem('my_orders') || '[]');
             const newOrder = {
                 ...data,
+                statusCode: 1,
                 date: new Date().toLocaleDateString('ru-RU') + ' ' + new Date().toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'})
             };
-            currentOrders.unshift(newOrder); // Добавляем свежий заказ в начало
+            currentOrders.unshift(newOrder);
             localStorage.setItem('my_orders', JSON.stringify(currentOrders));
 
             // Отправляем данные в Telegram
             tg.sendData(JSON.stringify(data));
+        });
+
+        // Авто-попытка подстановки контакта при запуске
+        window.addEventListener('DOMContentLoaded', () => {
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                const u = tg.initDataUnsafe.user;
+                if (u.username) {
+                    document.getElementById('senderContact').value = `@${u.username}`;
+                }
+            }
         });
     </script>
 </body>
