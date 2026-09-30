@@ -8,9 +8,9 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --card-bg: rgba(22, 32, 44, 0.88); /* Полупрозрачная карточка */
+            --card-bg: rgba(22, 32, 44, 0.90);
             --input-bg: rgba(32, 45, 61, 0.9);
-            --accent-color: #d97724; /* Охристо-брусничный акцент */
+            --accent-color: #d97724;
             --accent-gradient: linear-gradient(135deg, #e67e22, #c0392b);
             --text-primary: #f0f4f8;
             --text-secondary: #a0b2c6;
@@ -28,8 +28,6 @@
             margin: 0;
             padding: 12px 16px 90px 16px;
             color: var(--text-primary);
-            
-            /* Картинка на заднем фоне */
             background-image: linear-gradient(rgba(13, 19, 26, 0.75), rgba(13, 19, 26, 0.85)), url('bg.jpg');
             background-repeat: repeat-y;
             background-position: center top;
@@ -37,7 +35,6 @@
             background-attachment: fixed;
         }
 
-        /* Традиционный орнамент (декоративная полоса) */
         .chukchi-ornament {
             height: 12px;
             background-image: repeating-linear-gradient(
@@ -52,7 +49,6 @@
             margin-bottom: 10px;
         }
 
-        /* Шапка */
         .header {
             text-align: center;
             margin-bottom: 16px;
@@ -79,7 +75,6 @@
             color: var(--text-secondary);
         }
 
-        /* Карточка формы */
         .card {
             background-color: var(--card-bg);
             backdrop-filter: blur(10px);
@@ -133,7 +128,6 @@
             resize: none;
         }
 
-        /* Кнопка отправки */
         .btn-submit {
             width: 100%;
             background: var(--accent-gradient);
@@ -157,7 +151,7 @@
             transform: scale(0.98);
         }
 
-        /* Нижняя навигация */
+        /* Нижнее меню */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -168,7 +162,7 @@
             -webkit-backdrop-filter: blur(12px);
             display: flex;
             justify-content: space-around;
-            padding: 10px 0 16px;
+            padding: 10px 0 14px;
             border-top: 1px solid var(--border-color);
             z-index: 100;
         }
@@ -180,10 +174,11 @@
             gap: 4px;
             color: #78909c;
             text-decoration: none;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 500;
             cursor: pointer;
             width: 25%;
+            text-align: center;
         }
 
         .nav-item i {
@@ -192,6 +187,73 @@
         }
 
         .nav-item.active {
+            color: var(--accent-color);
+        }
+
+        /* Модальные окна для ПВЗ и Истории */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px);
+            z-index: 200;
+            padding: 20px 16px;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            max-width: 500px;
+            margin: 20px auto;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-color);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .pvz-list-item {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .history-card {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+        .history-card strong {
             color: var(--accent-color);
         }
     </style>
@@ -204,7 +266,8 @@
         <p>Санкт-Петербург ➔ Чукотский АО</p>
     </div>
 
-    <div class="card">
+    <!-- ОСНОВНАЯ ФОРМА -->
+    <div class="card" id="mainFormCard">
         <form id="orderForm">
             <div class="form-group">
                 <label><i data-lucide="map-pin"></i> Населенный пункт</label>
@@ -251,18 +314,64 @@
         </form>
     </div>
 
+    <!-- МОДАЛЬНОЕ ОКНО: АДРЕСА ПВЗ -->
+    <div class="modal" id="pvzModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModals()">✕</button>
+            <div class="modal-title">
+                <i data-lucide="map-pin"></i>
+                <span>Адреса ПВЗ (Мурино)</span>
+            </div>
+            
+            <div class="pvz-list-item">
+                🟣 <strong>Wildberries:</strong><br>Мурино, Проспект Авиаторов Балтики 15
+            </div>
+            <div class="pvz-list-item">
+                🔵 <strong>Ozon:</strong><br>Мурино, пр-кт Авиаторов Балтики, 13
+            </div>
+            <div class="pvz-list-item">
+                🟢 <strong>СДЭК:</strong><br>Мурино, Петровский бульвар 7
+            </div>
+            <div class="pvz-list-item">
+                🟡 <strong>Яндекс Маркет:</strong><br>Мурино, Петровский бульвар 2, корпус 2
+            </div>
+            <div class="pvz-list-item">
+                🔴 <strong>Lamoda:</strong><br>Мурино, Петровский бульвар 6, корпус 2
+            </div>
+            
+            <p style="font-size: 12px; color: var(--text-secondary); text-align: center; margin-top: 15px;">
+                📌 Заказы и посылки можно оформлять или направлять на любой из указанных пунктов.
+            </p>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО: ИСТОРИЯ ЗАКАЗОВ -->
+    <div class="modal" id="historyModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModals()">✕</button>
+            <div class="modal-title">
+                <i data-lucide="history"></i>
+                <span>История заказов</span>
+            </div>
+            <div id="historyList">
+                <!-- Динамически заполняется через JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- НИЖНЯЯ НАВИГАЦИЯ -->
     <div class="bottom-nav">
-        <div class="nav-item active">
+        <div class="nav-item active" onclick="closeModals()">
             <i data-lucide="home"></i>
             <span>Главная</span>
         </div>
-        <div class="nav-item" onclick="alert('История заказов доступна у менеджера')">
+        <div class="nav-item" onclick="openHistory()">
             <i data-lucide="history"></i>
-            <span>История</span>
+            <span>История заказов</span>
         </div>
-        <div class="nav-item" onclick="alert('Адреса ПВЗ доступны в боте')">
-            <i data-lucide="map"></i>
-            <span>ПВЗ</span>
+        <div class="nav-item" onclick="openPvz()">
+            <i data-lucide="map-pin"></i>
+            <span>Адреса ПВЗ</span>
         </div>
         <div class="nav-item" onclick="tg.close()">
             <i data-lucide="x-circle"></i>
@@ -277,6 +386,40 @@
 
         lucide.createIcons();
 
+        // Управление модальными окнами
+        function closeModals() {
+            document.getElementById('pvzModal').style.display = 'none';
+            document.getElementById('historyModal').style.display = 'none';
+        }
+
+        function openPvz() {
+            closeModals();
+            document.getElementById('pvzModal').style.display = 'block';
+        }
+
+        function openHistory() {
+            closeModals();
+            const historyList = document.getElementById('historyList');
+            const orders = JSON.parse(localStorage.getItem('my_orders') || '[]');
+
+            if (orders.length === 0) {
+                historyList.innerHTML = '<p style="text-align:center; color: var(--text-secondary);">У вас пока нет отправленных заявок.</p>';
+            } else {
+                historyList.innerHTML = orders.map((o, idx) => `
+                    <div class="history-card">
+                        <div><strong>Заявка #${orders.length - idx}</strong> (${o.date})</div>
+                        <div style="margin-top: 6px;">📍 <strong>НП:</strong> ${o.destination}</div>
+                        <div>🚚 <strong>Сервис:</strong> ${o.service}</div>
+                        <div>🔢 <strong>Кол-во:</strong> ${o.itemCount}</div>
+                        <div>🎯 <strong>Получатель:</strong> ${o.recipientInfo}</div>
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('historyModal').style.display = 'block';
+        }
+
+        // Обработка формы
         const form = document.getElementById('orderForm');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -292,6 +435,16 @@
                 recipientInfo: document.getElementById('recipientInfo').value
             };
 
+            // Сохраняем в локальную историю устройства
+            const currentOrders = JSON.parse(localStorage.getItem('my_orders') || '[]');
+            const newOrder = {
+                ...data,
+                date: new Date().toLocaleDateString('ru-RU') + ' ' + new Date().toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'})
+            };
+            currentOrders.unshift(newOrder); // Добавляем свежий заказ в начало
+            localStorage.setItem('my_orders', JSON.stringify(currentOrders));
+
+            // Отправляем данные в Telegram
             tg.sendData(JSON.stringify(data));
         });
     </script>
