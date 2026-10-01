@@ -8,7 +8,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            /* Инвертированная бело-голубая палитра */
+            /* Инвертированная палитра: голубые карточки и элементы, белый текст и акценты */
             --card-bg: rgba(2, 132, 199, 0.92);
             --input-bg: rgba(3, 105, 161, 0.9);
             --accent-color: #ffffff;
@@ -44,7 +44,7 @@
             background-position: center;
             background-size: auto 100%;
             margin-bottom: 10px;
-            /* Перекрашиваем черный орнамент в белый цвет */
+            /* Перекрашиваем черную картинку орнамента в белый цвет */
             filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
         }
 
@@ -72,29 +72,6 @@
             margin: 4px 0 0;
             font-size: 13px;
             color: var(--text-secondary);
-        }
-
-        /* Блок панели администратора */
-        #adminCard {
-            display: none;
-            background: rgba(239, 68, 68, 0.25);
-            border: 1px dashed #ffffff;
-            border-radius: var(--radius);
-            padding: 16px;
-            margin-bottom: 16px;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-        }
-
-        .admin-title {
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 0;
-            margin-bottom: 8px;
         }
 
         .card {
@@ -389,15 +366,6 @@
         <p>Санкт-Петербург ➔ Чукотский АО</p>
     </div>
 
-    <!-- ПАНЕЛЬ АДМИНИСТРАТОРА (Видна только вам: ID 6464412618) -->
-    <div id="adminCard">
-        <h3 class="admin-title"><i data-lucide="shield-alert"></i> Панель Администратора</h3>
-        <p style="font-size: 13px; margin: 0 0 10px 0; color: #ffffff;">Вы вошли под аккаунтом администратора.</p>
-        <button type="button" class="btn-autofill" style="padding: 6px 12px; font-size: 12px;" onclick="alert('Вы авторизованы как администратор!')">
-            ⚙️ Режим администратора активен
-        </button>
-    </div>
-
     <!-- ФОРМА ЗАЯВКИ -->
     <div class="card" id="mainFormCard">
         <form id="orderForm">
@@ -576,9 +544,6 @@
         tg.enableClosingConfirmation();
         lucide.createIcons();
 
-        // Ваш ID администратора Telegram
-        const ADMIN_ID = 6464412618;
-
         function copyText(btn, text) {
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(text).then(() => showSuccess(btn));
@@ -713,23 +678,11 @@
             tg.sendData(JSON.stringify(data));
         });
 
-    window.addEventListener('DOMContentLoaded', () => {
-            // Заполнение поля контакта по умолчанию
-            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                const u = tg.initDataUnsafe.user;
-                if (u.username) {
-                    document.getElementById('senderContact').value = `@${u.username}`;
-                }
-            }
-
-            // Надежная проверка прав администратора
-            // Сравниваем через == (чтобы учитывались и строка "6464412618", и число 6464412618)
-            const currentUserId = tg.initDataUnsafe?.user?.id;
-            
-            if (currentUserId && currentUserId == ADMIN_ID) {
-                const adminCard = document.getElementById('adminCard');
-                if (adminCard) {
-                    adminCard.style.display = 'block';
-                }
+        window.addEventListener('DOMContentLoaded', () => {
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.username) {
+                document.getElementById('senderContact').value = `@${tg.initDataUnsafe.user.username}`;
             }
         });
+    </script>
+</body>
+</html>
