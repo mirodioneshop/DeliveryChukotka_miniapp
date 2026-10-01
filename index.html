@@ -9,18 +9,17 @@
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--tg-theme-bg-color, #f4f4f5);
-            color: var(--tg-theme-text-color, #222);
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #222222);
             margin: 0;
-            padding: 20px;
+            padding: 16px;
         }
         .container {
             max-width: 500px;
             margin: 0 auto;
-            background: var(--tg-theme-secondary-bg-color, #fff);
-            padding: 20px;
+            background: var(--tg-theme-bg-color, #ffffff);
+            padding: 10px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         h2 {
             text-align: center;
@@ -38,7 +37,9 @@
         input, select, textarea {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid var(--tg-theme-hint-color, #ccc);
+            background-color: var(--tg-theme-bg-color, #fff);
+            color: var(--tg-theme-text-color, #000);
             border-radius: 8px;
             box-sizing: border-box;
             font-size: 14px;
@@ -58,13 +59,13 @@
         button:hover {
             opacity: 0.9;
         }
-        /* Стили для админ-панели (по умолчанию скрыта) */
+        /* Стили для админ-панели (скрыта по умолчанию) */
         #admin-panel {
             display: none;
             border: 2px dashed #ff4d4d;
             padding: 15px;
             border-radius: 8px;
-            background-color: #fff5f5;
+            background-color: rgba(255, 77, 77, 0.1);
             margin-top: 20px;
         }
         .admin-title {
@@ -117,8 +118,7 @@
     <div id="admin-panel">
         <h3 class="admin-title">🛠 Панель администратора</h3>
         <p>Вы вошли как администратор системы.</p>
-        <p>Здесь вы можете управлять дополнительными функциями или просматривать служебную информацию.</p>
-        <!-- Сюда при необходимости можно добавить админские элементы интерфейса -->
+        <p>Здесь вы можете управлять дополнительными функциями.</p>
     </div>
 </div>
 
@@ -151,7 +151,6 @@
             return;
         }
 
-        // Собираем данные в объект
         const orderData = {
             destination: destination,
             service: service,
@@ -160,7 +159,6 @@
             recipientInfo: recipientInfo
         };
 
-        // Отправляем данные обратно в Telegram-бот
         tg.sendData(JSON.stringify(orderData));
     });
 </script>
