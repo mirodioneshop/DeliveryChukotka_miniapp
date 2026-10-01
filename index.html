@@ -2,166 +2,298 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Доставка Санкт-Петербург — Чукотка</title>
-    <!-- Подключаем официальный скрипт Telegram Web App -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Доставка на Чукотку ❄️</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        :root {
+            --card-bg: rgba(22, 32, 44, 0.88); /* Полупрозрачная карточка */
+            --input-bg: rgba(32, 45, 61, 0.9);
+            --accent-color: #d97724; /* Охристо-брусничный акцент */
+            --accent-gradient: linear-gradient(135deg, #e67e22, #c0392b);
+            --text-primary: #f0f4f8;
+            --text-secondary: #a0b2c6;
+            --border-color: rgba(255, 255, 255, 0.15);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #222222);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
             margin: 0;
-            padding: 16px;
+            padding: 12px 16px 90px 16px;
+            color: var(--text-primary);
+            
+            /* Картинка на заднем фоне */
+            background-image: linear-gradient(rgba(13, 19, 26, 0.75), rgba(13, 19, 26, 0.85)), url('bg.jpg');
+            background-repeat: repeat-y;
+            background-position: center top;
+            background-size: cover;
+            background-attachment: fixed;
         }
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: var(--tg-theme-bg-color, #ffffff);
-            padding: 10px;
-            border-radius: 12px;
+
+        /* Традиционный орнамент (декоративная полоса) */
+        .chukchi-ornament {
+            height: 12px;
+            background-image: repeating-linear-gradient(
+                45deg,
+                var(--accent-color) 0,
+                var(--accent-color) 8px,
+                transparent 8px,
+                transparent 16px
+            );
+            border-radius: 4px;
+            opacity: 0.9;
+            margin-bottom: 10px;
         }
-        h2 {
+
+        /* Шапка */
+        .header {
             text-align: center;
-            color: var(--tg-theme-hint-color, #0088cc);
+            margin-bottom: 16px;
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
         }
+
+        .header h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+        }
+
+        .header p {
+            margin: 4px 0 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Карточка формы */
+        .card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+        }
+
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 14px;
         }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            font-size: 14px;
+
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
         }
+
+        .form-group label i {
+            width: 16px;
+            height: 16px;
+            color: var(--accent-color);
+        }
+
         input, select, textarea {
             width: 100%;
-            padding: 10px;
-            border: 1px solid var(--tg-theme-hint-color, #ccc);
-            background-color: var(--tg-theme-bg-color, #fff);
-            color: var(--tg-theme-text-color, #000);
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 14px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s ease;
         }
-        button {
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(217, 119, 36, 0.3);
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        /* Кнопка отправки */
+        .btn-submit {
             width: 100%;
-            padding: 12px;
-            background-color: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #fff);
+            background: var(--accent-gradient);
+            color: #ffffff;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover {
-            opacity: 0.9;
-        }
-        /* Стили для админ-панели (скрыта по умолчанию) */
-        #admin-panel {
-            display: none;
-            border: 2px dashed #ff4d4d;
             padding: 15px;
-            border-radius: 8px;
-            background-color: rgba(255, 77, 77, 0.1);
-            margin-top: 20px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 16px rgba(230, 126, 34, 0.4);
+            margin-top: 12px;
+            transition: transform 0.1s ease;
         }
-        .admin-title {
-            color: #d32f2f;
-            text-align: center;
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* Нижняя навигация */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(13, 19, 26, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 16px;
+            border-top: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #78909c;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 25%;
+        }
+
+        .nav-item i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- ФОРМА ДЛЯ КЛИЕНТОВ -->
-    <div id="client-view">
-        <h2>📦 Оформление доставки</h2>
-        <div class="form-group">
-            <label for="destination">Пункт назначения на Чукотке:</label>
-            <input type="text" id="destination" placeholder="Например: Анадырь, Певек...">
-        </div>
-        
-        <div class="form-group">
-            <label for="service">Служба доставки:</label>
-            <select id="service">
-                <option value="Авито">Авито</option>
-                <option value="Почта России">Почта России</option>
-                <option value="Озон">Озон</option>
-                <option value="Wildberries">Wildberries (только Анадырь)</option>
-                <option value="Другое">Другое</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="itemCount">Количество товаров / посылок:</label>
-            <input type="text" id="itemCount" placeholder="Например: 2 шт">
-        </div>
-
-        <div class="form-group">
-            <label for="senderContact">Ваши контакты (Отправитель):</label>
-            <input type="text" id="senderContact" placeholder="Телефон или @username">
-        </div>
-
-        <div class="form-group">
-            <label for="recipientInfo">Получатель (ФИО и телефон):</label>
-            <textarea id="recipientInfo" rows="3" placeholder="Иванов Иван Иванович, +7..."></textarea>
-        </div>
-
-        <button id="submitBtn">Отправить заявку в бот</button>
+    <div class="header">
+        <div class="chukchi-ornament"></div>
+        <h2>🏔️ Доставка на Чукотку</h2>
+        <p>Санкт-Петербург ➔ Чукотский АО</p>
     </div>
 
-    <!-- СКРЫТАЯ ПАНЕЛЬ АДМИНИСТРАТОРА (Видна ТОЛЬКО ВАМ) -->
-    <div id="admin-panel">
-        <h3 class="admin-title">🛠 Панель администратора</h3>
-        <p>Вы вошли как администратор системы.</p>
-        <p>Здесь вы можете управлять дополнительными функциями.</p>
+    <div class="card">
+        <form id="orderForm">
+            <div class="form-group">
+                <label><i data-lucide="map-pin"></i> Населенный пункт</label>
+                <input type="text" id="destination" placeholder="Например: Анадырь, Лаврентия, Певек" required>
+            </div>
+
+            <div class="form-group">
+                <label><i data-lucide="truck"></i> Служба / Маркетплейс</label>
+                <select id="service" required>
+                    <option value="" disabled selected>Выберите сервис</option>
+                    <option value="Авито">Авито (Любой НП)</option>
+                    <option value="Wildberries">Wildberries (Анадырь)</option>
+                    <option value="Ozon">Ozon (Анадырь, Угольные Копи, Певек)</option>
+                    <option value="Почта России">Почта России (Любой НП)</option>
+                    <option value="СДЭК / Яндекс Маркет">СДЭК / Яндекс Маркет</option>
+                    <option value="Другое">Другое</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label><i data-lucide="package"></i> Количество товаров (в шт.)</label>
+                <input type="number" id="itemCount" min="1" placeholder="1" required>
+            </div>
+
+            <div class="form-group">
+                <label><i data-lucide="link"></i> Трек / Ссылка (необязательно)</label>
+                <input type="text" id="trackInfo" placeholder="Номер заказа или код">
+            </div>
+
+            <div class="form-group">
+                <label><i data-lucide="phone"></i> Телефон отправителя</label>
+                <input type="tel" id="senderContact" placeholder="+7 999 000-00-00" required>
+            </div>
+
+            <div class="form-group">
+                <label><i data-lucide="user-check"></i> Получатель (ФИО и телефон)</label>
+                <textarea id="recipientInfo" rows="2" placeholder="Иванов Иван Иванович, +7 999 123-45-67" required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <span>Отправить заявку</span>
+                <i data-lucide="send"></i>
+            </button>
+        </form>
     </div>
-</div>
 
-<script>
-    // Инициализация Telegram Web App
-    const tg = window.Telegram.WebApp;
-    tg.expand(); // Разворачиваем на весь экран
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <i data-lucide="home"></i>
+            <span>Главная</span>
+        </div>
+        <div class="nav-item" onclick="alert('История заказов доступна у менеджера')">
+            <i data-lucide="history"></i>
+            <span>История</span>
+        </div>
+        <div class="nav-item" onclick="alert('Адреса ПВЗ доступны в боте')">
+            <i data-lucide="map"></i>
+            <span>ПВЗ</span>
+        </div>
+        <div class="nav-item" onclick="tg.close()">
+            <i data-lucide="x-circle"></i>
+            <span>Закрыть</span>
+        </div>
+    </div>
 
-    // Ваш личный ID администратора
-    const ADMIN_ID = 6464412618;
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.enableClosingConfirmation();
 
-    // Проверяем, кто открыл мини-приложение
-    const user = tg.initDataUnsafe?.user;
+        lucide.createIcons();
 
-    if (user && user.id === ADMIN_ID) {
-        // Если это вы — показываем админ-панель
-        document.getElementById('admin-panel').style.display = 'block';
-    }
+        const form = document.getElementById('orderForm');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-    // Обработка отправки формы заказа
-    document.getElementById('submitBtn').addEventListener('click', function() {
-        const destination = document.getElementById('destination').value.trim();
-        const service = document.getElementById('service').value;
-        const itemCount = document.getElementById('itemCount').value.trim();
-        const senderContact = document.getElementById('senderContact').value.trim();
-        const recipientInfo = document.getElementById('recipientInfo').value.trim();
+            const countVal = document.getElementById('itemCount').value;
 
-        if (!destination || !itemCount || !senderContact || !recipientInfo) {
-            alert('Пожалуйста, заполните все поля формы!');
-            return;
-        }
+            const data = {
+                destination: document.getElementById('destination').value,
+                service: document.getElementById('service').value,
+                itemCount: countVal + " шт.",
+                trackInfo: document.getElementById('trackInfo').value || "Не указано",
+                senderContact: document.getElementById('senderContact').value,
+                recipientInfo: document.getElementById('recipientInfo').value
+            };
 
-        const orderData = {
-            destination: destination,
-            service: service,
-            itemCount: itemCount,
-            senderContact: senderContact,
-            recipientInfo: recipientInfo
-        };
-
-        tg.sendData(JSON.stringify(orderData));
-    });
-</script>
-
+            tg.sendData(JSON.stringify(data));
+        });
+    </script>
 </body>
 </html>
