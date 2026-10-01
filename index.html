@@ -36,18 +36,15 @@
             background-attachment: fixed;
         }
 
-        .chukchi-ornament {
-            height: 12px;
-            background-image: repeating-linear-gradient(
-                45deg,
-                var(--accent-color) 0,
-                var(--accent-color) 8px,
-                transparent 8px,
-                transparent 16px
-            );
-            border-radius: 4px;
-            opacity: 0.9;
+       .chukchi-ornament {
+            height: 16px;
+            background-image: url('./ornament.png');
+            background-repeat: repeat-x;
+            background-position: center;
+            background-size: auto 100%;
             margin-bottom: 10px;
+            /* Перекрашиваем черный узор в наш оранжевый цвет */
+            filter: invert(52%) sepia(85%) saturate(1400%) hue-rotate(355deg) brightness(95%) contrast(90%);
         }
 
         .header {
