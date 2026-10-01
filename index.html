@@ -713,20 +713,23 @@
             tg.sendData(JSON.stringify(data));
         });
 
-        window.addEventListener('DOMContentLoaded', () => {
+      window.addEventListener('DOMContentLoaded', () => {
             // Заполнение поля контакта по умолчанию
             if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
                 const u = tg.initDataUnsafe.user;
                 if (u.username) {
                     document.getElementById('senderContact').value = `@${u.username}`;
                 }
-                
-                // Проверка прав администратора
-                if (u.id === ADMIN_ID) {
-                    document.getElementById('adminCard').style.display = 'block';
+            }
+
+            // Надежная проверка прав администратора
+            // Сравниваем через == (чтобы учитывались и строка "6464412618", и число 6464412618)
+            const currentUserId = tg.initDataUnsafe?.user?.id;
+            
+            if (currentUserId && currentUserId == ADMIN_ID) {
+                const adminCard = document.getElementById('adminCard');
+                if (adminCard) {
+                    adminCard.style.display = 'block';
                 }
             }
         });
-    </script>
-</body>
-</html>
