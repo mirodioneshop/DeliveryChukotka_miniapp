@@ -8,14 +8,14 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            /* Бело-голубая палитра */
-            --card-bg: #ffffff;
-            --input-bg: #f0f7ff;
-            --accent-color: #0077ff;
-            --accent-gradient: linear-gradient(135deg, #0088ff, #0055cc);
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --border-color: #dbeafe;
+            /* Инвертированная палитра: голубые карточки и элементы, белый текст и акценты */
+            --card-bg: rgba(2, 132, 199, 0.92);
+            --input-bg: rgba(3, 105, 161, 0.9);
+            --accent-color: #ffffff;
+            --accent-gradient: linear-gradient(135deg, #ffffff, #e0f2fe);
+            --text-primary: #ffffff;
+            --text-secondary: #bae6fd;
+            --border-color: rgba(255, 255, 255, 0.3);
             --radius: 16px;
         }
 
@@ -29,9 +29,11 @@
             margin: 0;
             padding: 12px 16px 90px 16px;
             color: var(--text-primary);
-            background-color: #e0f2fe;
-            background-image: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 100%);
-            background-repeat: no-repeat;
+            background-color: #0d131a;
+            background-image: linear-gradient(rgba(13, 19, 26, 0.75), rgba(13, 19, 26, 0.85)), url('./bg.jpg');
+            background-repeat: repeat-y;
+            background-position: center top;
+            background-size: cover;
             background-attachment: fixed;
         }
 
@@ -42,8 +44,8 @@
             background-position: center;
             background-size: auto 100%;
             margin-bottom: 10px;
-            /* Перекрашиваем черную картинку орнамента в голубой цвет */
-            filter: invert(32%) sepia(98%) saturate(1850%) hue-rotate(200deg) brightness(98%) contrast(105%);
+            /* Перекрашиваем черную картинку орнамента в белый цвет */
+            filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
         }
 
         .header {
@@ -55,14 +57,14 @@
             padding: 16px;
             border-radius: var(--radius);
             border: 1px solid var(--border-color);
-            box-shadow: 0 4px 16px rgba(0, 119, 255, 0.08);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
 
         .header h2 {
             margin: 0;
             font-size: 20px;
             font-weight: 700;
-            color: var(--accent-color);
+            color: #ffffff;
             letter-spacing: -0.3px;
         }
 
@@ -78,7 +80,7 @@
             -webkit-backdrop-filter: blur(10px);
             border-radius: var(--radius);
             padding: 18px;
-            box-shadow: 0 4px 20px rgba(0, 119, 255, 0.08);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
             border: 1px solid var(--border-color);
         }
 
@@ -107,13 +109,13 @@
         .form-group label i {
             width: 16px;
             height: 16px;
-            color: var(--accent-color);
+            color: #ffffff;
         }
 
         .btn-autofill {
-            background: #e0f2fe;
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid #ffffff;
+            color: #ffffff;
             padding: 2px 8px;
             border-radius: 6px;
             font-size: 10px;
@@ -129,16 +131,24 @@
             border-radius: 12px;
             border: 1px solid var(--border-color);
             background-color: var(--input-bg);
-            color: var(--text-primary);
+            color: #ffffff;
             font-size: 15px;
             outline: none;
             transition: all 0.2s ease;
         }
 
+        input::placeholder, textarea::placeholder {
+            color: #bae6fd;
+        }
+
+        select option {
+            background-color: #0369a1;
+            color: #ffffff;
+        }
+
         input:focus, select:focus, textarea:focus {
-            border-color: var(--accent-color);
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.15);
+            border-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
         }
 
         textarea {
@@ -148,7 +158,7 @@
         .btn-submit {
             width: 100%;
             background: var(--accent-gradient);
-            color: #ffffff;
+            color: #0284c7;
             border: none;
             padding: 15px;
             border-radius: 14px;
@@ -159,7 +169,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 16px rgba(0, 119, 255, 0.3);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
             margin-top: 12px;
             transition: transform 0.1s ease;
         }
@@ -174,14 +184,13 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: rgba(2, 132, 199, 0.95);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             display: flex;
             justify-content: space-around;
             padding: 8px 0 12px;
             border-top: 1px solid var(--border-color);
-            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
             z-index: 100;
         }
 
@@ -190,7 +199,7 @@
             flex-direction: column;
             align-items: center;
             gap: 3px;
-            color: #94a3b8;
+            color: #bae6fd;
             text-decoration: none;
             font-size: 9px;
             font-weight: 500;
@@ -205,7 +214,7 @@
         }
 
         .nav-item.active {
-            color: var(--accent-color);
+            color: #ffffff;
         }
 
         /* Модальные окна */
@@ -213,7 +222,7 @@
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(15, 23, 42, 0.5);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(6px);
             z-index: 200;
             padding: 20px 16px;
@@ -228,7 +237,7 @@
             max-width: 500px;
             margin: 20px auto;
             position: relative;
-            box-shadow: 0 10px 25px rgba(0, 119, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .modal-title {
@@ -239,7 +248,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            color: var(--accent-color);
+            color: #ffffff;
         }
 
         .close-btn {
@@ -248,7 +257,7 @@
             right: 14px;
             background: transparent;
             border: none;
-            color: var(--text-secondary);
+            color: #bae6fd;
             font-size: 20px;
             cursor: pointer;
         }
@@ -268,13 +277,13 @@
         .pvz-info {
             font-size: 13px;
             line-height: 1.4;
-            color: var(--text-primary);
+            color: #ffffff;
         }
 
         .btn-copy {
             background: var(--accent-gradient);
             border: none;
-            color: #fff;
+            color: #0284c7;
             padding: 8px 12px;
             border-radius: 8px;
             font-size: 12px;
@@ -285,7 +294,8 @@
         }
 
         .btn-copy.copied {
-            background: #10b981 !important;
+            background: #22c55e !important;
+            color: #ffffff !important;
         }
 
         .faq-item {
@@ -299,14 +309,14 @@
         .faq-q {
             font-weight: 700;
             font-size: 13px;
-            color: var(--accent-color);
+            color: #ffffff;
             margin-bottom: 6px;
         }
 
         .faq-a {
             font-size: 12px;
             line-height: 1.4;
-            color: var(--text-primary);
+            color: #e0f2fe;
         }
 
         .history-card {
@@ -316,7 +326,7 @@
             border-radius: 12px;
             margin-bottom: 12px;
             font-size: 13px;
-            color: var(--text-primary);
+            color: #ffffff;
         }
 
         .history-header {
@@ -337,22 +347,22 @@
             margin-top: 4px;
         }
 
-        .st-1 { background: #fef3c7; color: #d97706; border: 1px solid #fcd34d; }
-        .st-2 { background: #e0f2fe; color: #0284c7; border: 1px solid #7dd3fc; }
-        .st-3 { background: #f3e8ff; color: #9333ea; border: 1px solid #c084fc; }
-        .st-4 { background: #ffedd5; color: #ea580c; border: 1px solid #fdba74; }
-        .st-5 { background: #ccfbf1; color: #0d9488; border: 1px solid #5eead4; }
-        .st-6 { background: #fef9c3; color: #ca8a04; border: 1px solid #fde047; }
-        .st-7 { background: #dbeafe; color: #2563eb; border: 1px solid #93c5fd; }
-        .st-8 { background: #dcfce7; color: #16a34a; border: 1px solid #86efac; }
-        .st-9 { background: #d1fae5; color: #059669; border: 1px solid #6ee7b7; }
+        .st-1 { background: rgba(254, 240, 138, 0.25); color: #fef08a; border: 1px solid #fef08a; }
+        .st-2 { background: rgba(186, 230, 253, 0.25); color: #bae6fd; border: 1px solid #bae6fd; }
+        .st-3 { background: rgba(233, 213, 255, 0.25); color: #e9d5ff; border: 1px solid #e9d5ff; }
+        .st-4 { background: rgba(254, 215, 170, 0.25); color: #fed7aa; border: 1px solid #fed7aa; }
+        .st-5 { background: rgba(153, 246, 228, 0.25); color: #99f6e4; border: 1px solid #99f6e4; }
+        .st-6 { background: rgba(254, 240, 138, 0.25); color: #fef08a; border: 1px solid #fef08a; }
+        .st-7 { background: rgba(191, 219, 254, 0.25); color: #bfdbfe; border: 1px solid #bfdbfe; }
+        .st-8 { background: rgba(187, 247, 208, 0.25); color: #bbf7d0; border: 1px solid #bbf7d0; }
+        .st-9 { background: rgba(167, 243, 208, 0.35); color: #a7f3d0; border: 1px solid #a7f3d0; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <div class="chukchi-ornament"></div>
-        <h2>🏔️ Доставка на Чукотку</h2>
+        <h2>🐻‍❄️ Доставка на Чукотку</h2>
         <p>Санкт-Петербург ➔ Чукотский АО</p>
     </div>
 
@@ -376,7 +386,6 @@
                     <option value="Wildberries">Wildberries (Анадырь)</option>
                     <option value="Ozon">Ozon (Анадырь, Угольные Копи, Певек)</option>
                     <option value="Почта России">Почта России (Любой НП)</option>
-                    <option value="СДЭК / Яндекс Маркет">СДЭК / Яндекс Маркет</option>
                     <option value="Другое">Другое</option>
                 </select>
             </div>
