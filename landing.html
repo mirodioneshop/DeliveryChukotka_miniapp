@@ -3,41 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Доставка товаров на Чукотку 🐻‍❄️</title>
+    <title>Доставка товаров из СПб на Чукотку 🐻‍❄️ | Сервис ИП Миронов A.В.</title>
+    <!-- Подключение иконок Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --card-bg: rgba(2, 132, 199, 0.92);
-            --input-bg: rgba(3, 105, 161, 0.9);
-            --accent-gradient: linear-gradient(135deg, #ffffff, #e0f2fe);
-            --text-primary: #ffffff;
-            --text-secondary: #bae6fd;
-            --border-color: rgba(255, 255, 255, 0.3);
-            --radius: 16px;
+            --bg-color: #0b131e;
+            --card-bg: rgba(14, 116, 144, 0.25);
+            --card-border: rgba(56, 189, 248, 0.25);
+            --card-hover-border: rgba(56, 189, 248, 0.6);
+            --accent-gradient: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            --accent-glow: 0 0 25px rgba(14, 165, 233, 0.4);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --input-bg: rgba(15, 23, 42, 0.8);
+            --radius: 20px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
             color: var(--text-primary);
-            background-color: #0d131a;
-            background-image: linear-gradient(rgba(13, 19, 26, 0.8), rgba(13, 19, 26, 0.9)), url('./bg.jpg');
-            background-repeat: repeat-y;
-            background-position: center top;
-            background-size: cover;
-            background-attachment: fixed;
             line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(14, 165, 233, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(2, 132, 199, 0.12) 0%, transparent 40%);
+            background-attachment: fixed;
+            padding-bottom: 40px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 20px 16px;
+            padding: 24px 16px;
         }
 
         /* Шапка */
@@ -45,27 +49,32 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            padding: 16px 20px;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            padding: 16px 24px;
             border-radius: var(--radius);
-            border: 1px solid var(--border-color);
-            margin-bottom: 24px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            margin-bottom: 32px;
+            position: sticky;
+            top: 16px;
+            z-index: 100;
         }
 
         .logo {
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 20px;
+            font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .btn-tg {
+        .btn-tg-head {
             background: var(--accent-gradient);
-            color: #0284c7;
-            padding: 10px 18px;
+            color: #ffffff;
+            padding: 10px 20px;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 700;
@@ -73,34 +82,157 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            box-shadow: var(--accent-glow);
+            transition: all 0.3s ease;
         }
 
-        /* Форма заказа на сайте */
-        .order-section {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 28px 20px;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        .btn-tg-head:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(14, 165, 233, 0.6);
         }
 
-        .order-section h2 {
-            font-size: 22px;
+        /* Hero секция */
+        .hero {
             text-align: center;
-            margin-bottom: 8px;
+            padding: 40px 20px;
+            margin-bottom: 32px;
         }
 
-        .order-section p.subtitle {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 14px;
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid var(--card-border);
+            color: #38bdf8;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
             margin-bottom: 20px;
         }
 
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 44px);
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 17px;
+            max-width: 680px;
+            margin: 0 auto 28px;
+        }
+
+        /* Общие карточки */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 28px;
+            margin-bottom: 24px;
+            transition: border-color 0.3s;
+        }
+
+        .glass-card:hover {
+            border-color: var(--card-hover-border);
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #f1f5f9;
+        }
+
+        /* Калькулятор */
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .calc-result {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .calc-val {
+            font-size: 26px;
+            font-weight: 900;
+            color: #38bdf8;
+        }
+
+        /* Адреса ПВЗ */
+        .pvz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .pvz-item {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pvz-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .pvz-addr {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .btn-copy {
+            background: rgba(56, 189, 248, 0.1);
+            color: #38bdf8;
+            border: 1px solid var(--card-border);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-copy:hover {
+            background: #0ea5e9;
+            color: #ffffff;
+        }
+
+        /* Форма заявки */
         .form-group {
-            margin-bottom: 14px;
+            margin-bottom: 16px;
         }
 
         .form-group label {
@@ -108,37 +240,38 @@
             font-size: 12px;
             font-weight: 700;
             color: var(--text-secondary);
-            margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            margin-bottom: 6px;
         }
 
         input, select, textarea {
             width: 100%;
-            padding: 12px 14px;
+            padding: 14px 16px;
             border-radius: 12px;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--card-border);
             background-color: var(--input-bg);
             color: #ffffff;
             font-size: 15px;
             outline: none;
+            transition: border-color 0.2s;
         }
 
-        input::placeholder, textarea::placeholder {
-            color: #bae6fd;
+        input:focus, select:focus, textarea:focus {
+            border-color: #0ea5e9;
         }
 
         select option {
-            background-color: #0369a1;
+            background-color: #0f172a;
             color: #ffffff;
         }
 
         .btn-submit {
             width: 100%;
             background: var(--accent-gradient);
-            color: #0284c7;
+            color: #ffffff;
             border: none;
-            padding: 16px;
+            padding: 18px;
             border-radius: 14px;
             font-size: 16px;
             font-weight: 800;
@@ -147,53 +280,31 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-            margin-top: 16px;
+            box-shadow: var(--accent-glow);
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(14, 165, 233, 0.6);
         }
 
         .btn-submit:disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
         }
 
         .alert-success {
             display: none;
-            background: rgba(34, 197, 94, 0.25);
+            background: rgba(34, 197, 94, 0.2);
             border: 1px solid #22c55e;
-            color: #ffffff;
-            padding: 14px;
+            color: #4ade80;
+            padding: 16px;
             border-radius: 12px;
             text-align: center;
             margin-top: 16px;
-            font-size: 14px;
-        }
-
-        /* Преимущества */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 20px;
-        }
-
-        .card-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
-            color: #ffffff;
+            font-weight: 600;
         }
 
         footer {
@@ -204,8 +315,8 @@
         }
 
         footer a {
-            color: #ffffff;
-            text-decoration: underline;
+            color: #38bdf8;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -217,52 +328,84 @@
             <div class="logo">
                 🐻‍❄️ Доставка на Чукотку
             </div>
-            <a href="https://t.me/DeliveryChukotka_bot" class="btn-tg" target="_blank">
-                <i data-lucide="send"></i> Перейти в Бот
+            <a href="https://t.me/DeliveryChukotka_bot" class="btn-tg-head" target="_blank">
+                <i data-lucide="send"></i> Запустить Бот
             </a>
         </header>
 
-        <!-- Форма получения заявок -->
-        <section class="order-section" id="order">
-            <h2>Оформить заявку на доставку онлайн</h2>
-            <p class="subtitle">Заполните форму, и мы свяжемся с вами для подтверждения забора заказа из Мурино</p>
+        <!-- Главный баннер -->
+        <section class="hero">
+            <div class="badge">
+                <i data-lucide="shield-check" style="width: 16px; height: 16px;"></i> Надежная доставка СПб ➔ Чукотка
+            </div>
+            <h1>Заказывайте товары в Мурино — остальное мы возьмем на себя</h1>
+            <p>Забор заказов с Ozon, Wildberries, Авито и Почты России. Консолидация, бережная упаковка и отправка во все населенные пункты Чукотки.</p>
+        </section>
 
+        <!-- Калькулятор -->
+        <section class="glass-card">
+            <div class="section-title">
+                <i data-lucide="calculator" style="color: #38bdf8;"></i> Онлайн-расчет стоимости
+            </div>
+            <div class="calc-grid">
+                <div class="form-group">
+                    <label>Населенный пункт</label>
+                    <select id="calcCity" onchange="calculate()">
+                        <option value="1.0">Анадырь</option>
+                        <option value="1.2">Певек</option>
+                        <option value="1.3">Лаврентия</option>
+                        <option value="1.25">Билибино</option>
+                        <option value="1.15">Эгвекинот</option>
+                        <option value="1.35">Провидения</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Вес посылки (кг)</label>
+                    <input type="number" id="calcWeight" value="1" min="0.5" step="0.5" oninput="calculate()">
+                </div>
+            </div>
+            <div class="calc-result">
+                <div style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase;">Ориентировочная стоимость:</div>
+                <div class="calc-val" id="calcPrice">от 500 ₽</div>
+            </div>
+        </section>
+
+        <!-- Форма заказа -->
+        <section class="glass-card" id="orderForm">
+            <div class="section-title">
+                <i data-lucide="package-plus" style="color: #38bdf8;"></i> Быстрое оформление заявки
+            </div>
             <form id="siteOrderForm">
                 <div class="form-group">
-                    <label>Населенный пункт назначения</label>
-                    <input type="text" id="destination" placeholder="Например: Анадырь, Лаврентия, Певек" required>
+                    <label>Город / Поселок назначения</label>
+                    <input type="text" id="destination" placeholder="Например: Анадырь, Лаврентия" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Служба / Маркетплейс</label>
+                    <label>Сервис / Маркетплейс</label>
                     <select id="service" required>
-                        <option value="" disabled selected>Выберите сервис</option>
-                        <option value="Авито">Авито</option>
+                        <option value="" disabled selected>Выберите откуда забрать</option>
                         <option value="Wildberries">Wildberries</option>
                         <option value="Ozon">Ozon</option>
+                        <option value="Авито">Авито</option>
                         <option value="Почта России">Почта России</option>
                         <option value="Другое">Другое</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Количество товаров (в шт.)</label>
-                    <input type="number" id="itemCount" min="1" placeholder="1" required>
+                    <label>Трек-код или код выдачи заказа</label>
+                    <input type="text" id="trackInfo" placeholder="Введите код получения из приложения" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Трек-код или ссылка на заказ</label>
-                    <input type="text" id="trackInfo" placeholder="Номер заказа / код получения">
+                    <label>Ваш контакт (Телефон или @username в Telegram)</label>
+                    <input type="text" id="senderContact" placeholder="+7 (999) 000-00-00 или @telegram" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Ваш контакт (Телефон или Telegram @username)</label>
-                    <input type="text" id="senderContact" placeholder="+7 999 000-00-00 или @username" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Получатель на Чукотке (ФИО и телефон)</label>
-                    <textarea id="recipientInfo" rows="2" placeholder="Иванов Иван Иванович, +7 999 123-45-67" required></textarea>
+                    <label>Данные получателя на Чукотке (ФИО и телефон)</label>
+                    <textarea id="recipientInfo" rows="2" placeholder="ФИО полностью, контактный номер" required></textarea>
                 </div>
 
                 <button type="submit" class="btn-submit" id="submitBtn">
@@ -271,35 +414,55 @@
                 </button>
 
                 <div class="alert-success" id="successMsg">
-                    ✅ Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.
+                    🎉 Заявка успешно отправлена! Мы свяжемся с вами в течение 10 минут.
                 </div>
             </form>
         </section>
 
-        <!-- Блок преимуществ -->
-        <div class="grid">
-            <div class="card">
-                <div class="card-icon"><i data-lucide="map-pin"></i></div>
-                <h3>Забор из ПВЗ Мурино</h3>
-                <p>Заберем ваши заказы из ПВЗ WB, Ozon, Авито и Почты России в Мурино.</p>
+        <!-- Адреса ПВЗ -->
+        <section class="glass-card">
+            <div class="section-title">
+                <i data-lucide="map-pin" style="color: #38bdf8;"></i> Адреса ПВЗ в Мурино (для оформления заказов)
             </div>
-            <div class="card">
-                <div class="card-icon"><i data-lucide="package-check"></i></div>
-                <h3>Упаковка и консолидация</h3>
-                <p>Надежно упакуем и объединим ваши посылки перед отправкой на Чукотку.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i data-lucide="smartphone"></i></div>
-                <h3>Telegram Mini App</h3>
-                <p>Отслеживайте историю и статусы всех отправлений прямо в нашем Telegram-боте.</p>
-            </div>
-        </div>
+            <div class="pvz-grid">
+                <div class="pvz-item">
+                    <div>
+                        <div class="pvz-name"><i data-lucide="shopping-bag" style="color: #c084fc;"></i> Wildberries</div>
+                        <div class="pvz-addr">г. Мурино, пр-кт Авиаторов Балтики, д. 13</div>
+                    </div>
+                    <button class="btn-copy" onclick="copyAddr('г. Мурино, пр-кт Авиаторов Балтики, д. 13', this)">
+                        <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Скопировать
+                    </button>
+                </div>
 
+                <div class="pvz-item">
+                    <div>
+                        <div class="pvz-name"><i data-lucide="package" style="color: #38bdf8;"></i> Ozon</div>
+                        <div class="pvz-addr">г. Мурино, пр-кт Авиаторов Балтики, д. 15</div>
+                    </div>
+                    <button class="btn-copy" onclick="copyAddr('г. Мурино, пр-кт Авиаторов Балтики, д. 15', this)">
+                        <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Скопировать
+                    </button>
+                </div>
+
+                <div class="pvz-item">
+                    <div>
+                        <div class="pvz-name"><i data-lucide="mail" style="color: #f43f5e;"></i> Почта России</div>
+                        <div class="pvz-addr">г. Мурино, Привокзальная пл., д. 3 (Индекс: 188677)</div>
+                    </div>
+                    <button class="btn-copy" onclick="copyAddr('г. Мурино, Привокзальная пл., д. 3', this)">
+                        <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Скопировать
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Подвал -->
         <footer>
-            <p>© ИП Миронов Андрей Владимирович. Доставка из Санкт-Петербурга на Чукотку.</p>
+            <p>© ИП Миронов Андрей Владимирович. ОГРНИП / ИНН под запрос.</p>
             <p style="margin-top: 8px;">
-                <a href="https://t.me/+EsOzXhsuh6JlYjE6" target="_blank">Наш Telegram-канал</a> | 
-                <a href="https://t.me/DeliveryChukotka_bot" target="_blank">Запустить Telegram-бота</a>
+                <a href="https://t.me/+EsOzXhsuh6JlYjE6" target="_blank">Telegram-канал</a> • 
+                <a href="https://t.me/DeliveryChukotka_bot" target="_blank">Telegram Mini App</a>
             </p>
         </footer>
     </div>
@@ -307,29 +470,50 @@
     <script>
         lucide.createIcons();
 
-        // Ваш проверенный токен и ID администратора
+        // Токен бота и ID
         const BOT_TOKEN = '8875398364:AAHF1LudhGumAycjkNk3CW9BTAiltFr74TU';
         const ADMIN_CHAT_ID = '6464412618';
 
+        // Расчет калькулятора
+        function calculate() {
+            const mult = parseFloat(document.getElementById('calcCity').value);
+            const weight = parseFloat(document.getElementById('calcWeight').value) || 1;
+            const baseRate = 450;
+            const price = Math.round(baseRate * weight * mult);
+            document.getElementById('calcPrice').innerText = `от ${price} ₽`;
+        }
+
+        // Копирование адресов
+        function copyAddr(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const oldText = btn.innerHTML;
+                btn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px;"></i> Скопировано!';
+                lucide.createIcons();
+                setTimeout(() => {
+                    btn.innerHTML = oldText;
+                    lucide.createIcons();
+                }, 2000);
+            });
+        }
+
+        // Отправка формы в Telegram
         document.getElementById('siteOrderForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>Отправка...</span>';
+            submitBtn.innerHTML = '<span>Отправка заявки...</span>';
 
             const dest = document.getElementById('destination').value;
             const service = document.getElementById('service').value;
-            const count = document.getElementById('itemCount').value;
-            const track = document.getElementById('trackInfo').value || 'Не указан';
+            const track = document.getElementById('trackInfo').value;
             const contact = document.getElementById('senderContact').value;
             const recipient = document.getElementById('recipientInfo').value;
 
             const textMessage = `🌐 <b>НОВАЯ ЗАЯВКА С САЙТА!</b>\n\n` +
                 `📍 <b>НП:</b> ${dest}\n` +
                 `🚚 <b>Сервис:</b> ${service}\n` +
-                `🔢 <b>Кол-во:</b> ${count} шт.\n` +
-                `🏷 <b>Трек/Код:</b> ${track}\n` +
+                `🏷 <b>Код/Трек:</b> <code>${track}</code>\n` +
                 `📞 <b>Заказчик:</b> ${contact}\n` +
                 `🎯 <b>Получатель:</b> ${recipient}`;
 
@@ -348,12 +532,10 @@
                     document.getElementById('successMsg').style.display = 'block';
                     document.getElementById('siteOrderForm').reset();
                 } else {
-                    alert('Ошибка при отправке заявки: ' + (data.description || 'Неизвестная ошибка'));
+                    alert('Ошибка при отправке: ' + data.description);
                 }
             })
-            .catch(err => {
-                alert('Ошибка сети при отправке. Проверьте соединение.');
-            })
+            .catch(() => alert('Ошибка сети при отправке заявки.'))
             .finally(() => {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<span>Отправить заявку</span> <i data-lucide="send"></i>';
