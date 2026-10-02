@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Доставка товаров из СПб на Чукотку 🐻‍❄️</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --card-bg: rgba(2, 132, 199, 0.92);
+            --input-bg: rgba(3, 105, 161, 0.9);
+            --accent-color: #ffffff;
+            --accent-gradient: linear-gradient(135deg, #ffffff, #e0f2fe);
+            --text-primary: #ffffff;
+            --text-secondary: #bae6fd;
+            --border-color: rgba(255, 255, 255, 0.3);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            color: var(--text-primary);
+            background-color: #0d131a;
+            background-image: linear-gradient(rgba(13, 19, 26, 0.8), rgba(13, 19, 26, 0.9)), url('./bg.jpg');
+            background-repeat: repeat-y;
+            background-position: center top;
+            background-size: cover;
+            background-attachment: fixed;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px 16px;
+        }
+
+        /* Шапка */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 16px 20px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            margin-bottom: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-tg {
+            background: var(--accent-gradient);
+            color: #0284c7;
+            padding: 10px 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+
+        .btn-tg:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Главный баннер */
+        .hero {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 36px 24px;
+            text-align: center;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .hero h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 650px;
+            margin: 0 auto 24px auto;
+        }
+
+        .btn-hero {
+            background: var(--accent-gradient);
+            color: #0284c7;
+            padding: 16px 32px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 20px rgba(255,255,255,0.3);
+        }
+
+        /* Сетка преимуществ */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Шаги работы */
+        .steps {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .steps h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .step-number {
+            background: #ffffff;
+            color: #0284c7;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .step-text h4 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .step-text p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Подвал */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        footer a {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Шапка -->
+        <header>
+            <div class="logo">
+                🐻‍❄️ Доставка на Чукотку
+            </div>
+            <a href="https://t.me/DeliveryChukotka_bot" class="btn-tg" target="_blank">
+                <i data-lucide="send"></i> Бот в Telegram
+            </a>
+        </header>
+
+        <!-- Главный баннер -->
+        <section class="hero">
+            <h1>Быстрая и надежная доставка из Санкт-Петербурга на Чукотку 🏔️</h1>
+            <p>Заказывайте товары на Wildberries, Ozon, Авито и Почту России с доставкой в любой населенный пункт Чукотского АО.</p>
+            <a href="https://t.me/DeliveryChukotka_bot" class="btn-hero" target="_blank">
+                <span>Оформить заказ в Telegram</span>
+                <i data-lucide="arrow-right"></i>
+            </a>
+        </section>
+
+        <!-- Преимущества -->
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon"><i data-lucide="map-pin"></i></div>
+                <h3>Забор из ПВЗ Мурино</h3>
+                <p>Самостоятельно заберу ваши заказы из пунктов выдачи WB, Ozon, Авито и Почты в Мурино.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i data-lucide="package-check"></i></div>
+                <h3>Упаковка и консолидация</h3>
+                <p>Надежно упакую и сгруппирую ваши товары в одну общую посылку перед отправкой.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i data-lucide="smartphone"></i></div>
+                <h3>Отслеживание 24/7</h3>
+                <p>Оформление заказа и контроль его статусов прямо в удобном Telegram Mini App.</p>
+            </div>
+        </div>
+
+        <!-- Пошаговая инструкция -->
+        <section class="steps">
+            <h2>Как оформить доставку:</h2>
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-text">
+                    <h4>Оформите покупку в маркетплейсе</h4>
+                    <p>Укажите нужный адрес ПВЗ в Мурино (Санкт-Петербург) при заказе на WB, Ozon или Авито.</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-text">
+                    <h4>Заполните заявку в нашем приложении</h4>
+                    <p>Перейдите в Telegram-бот и укажите трек-код, населенный пункт назначения и контакты получателя.</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-text">
+                    <h4>Сборка и отправка</h4>
+                    <p>Посылка забирается из ПВЗ, упаковывается и отправляется на Чукотку по выбранному маршруту.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Подвал -->
+        <footer>
+            <p>© ИП Миронов Андрей Владимирович. Сервис логистики и доставки на Чукотку.</p>
+            <p style="margin-top: 8px;">
+                <a href="https://t.me/+EsOzXhsuh6JlYjE6" target="_blank">Наш Telegram-канал</a> | 
+                <a href="https://t.me/DeliveryChukotka_bot" target="_blank">Запустить бота</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
