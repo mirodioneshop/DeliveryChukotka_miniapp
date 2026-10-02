@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Доставка товаров из СПб на Чукотку 🐻‍❄️️</title>
+    <title>Доставка товаров на Чукотку 🐻‍❄️</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
@@ -151,6 +151,11 @@
             margin-top: 16px;
         }
 
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .alert-success {
             display: none;
             background: rgba(34, 197, 94, 0.25);
@@ -163,7 +168,7 @@
             font-size: 14px;
         }
 
-        /* Преимущества и шаги */
+        /* Преимущества */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -260,7 +265,7 @@
                     <textarea id="recipientInfo" rows="2" placeholder="Иванов Иван Иванович, +7 999 123-45-67" required></textarea>
                 </div>
 
-                <button type="submit" class="btn-submit">
+                <button type="submit" class="btn-submit" id="submitBtn">
                     <span>Отправить заявку</span>
                     <i data-lucide="send"></i>
                 </button>
@@ -302,63 +307,16 @@
     <script>
         lucide.createIcons();
 
-        // Настройки Telegram бота для приёма заявок с сайта
-        const BOT_TOKEN = '8875398364:AAHF1LudhGumAycjkNk3CW9BTAiltFr74TU'; // Ваш токен бота
-        const ADMIN_CHAT_ID = '6464412618'; // Ваш Telegram ID
-
-        document.getElementById('siteOrderForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const dest = document.getElementById('destination').value;
-            const service = document.getElementById('service').value;
-            const count = document.getElementById('itemCount').value;
-            const track = document.getElementById('trackInfo').value || 'Не указан';
-            const contact = document.getElementById('senderContact').value;
-            const recipient = document.getElementById('recipientInfo').value;
-
-            const textMessage = `🌐 <b>НОВАЯ ЗАЯВКА С САЙТА!</b>\n\n` +
-                `📍 <b>НП:</b> ${dest}\n` +
-                `🚚 <b>Сервис:</b> ${service}\n` +
-                `🔢 <b>Кол-во:</b> ${count} шт.\n` +
-                `🏷 <b>Трек/Код:</b> ${track}\n` +
-                `📞 <b>Заказчик:</b> ${contact}\n` +
-                `🎯 <b>Получатель:</b> ${recipient}`;
-
-            // Отправка заявки напрямую в ваш Telegram
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: ADMIN_CHAT_ID,
-                    text: textMessage,
-                    parse_mode: 'HTML'
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('successMsg').style.display = 'block';
-                document.getElementById('siteOrderForm').reset();
-                setTimeout(() => {
-                    document.getElementById('successMsg').style.display = 'none';
-                }, 5000);
-            })
-            .catch(err => {
-                alert('Произошла ошибка при отправке. Попробуйте еще раз или напишите нам в Telegram.');
-            });
-        });
-    </script>
-<script>
-        lucide.createIcons();
-
-        const BOT_TOKEN = 'ВСТАВЬТЕ_ВАШ_РЕАЛЬНЫЙ_ТОКЕН';
+        // Ваш проверенный токен и ID администратора
+        const BOT_TOKEN = '8875398364:AAHF1LudhGumAycjkNk3CW9BTAiltFr74TU';
         const ADMIN_CHAT_ID = '6464412618';
 
         document.getElementById('siteOrderForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const submitBtn = e.target.querySelector('.btn-submit');
+            const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
-            submitBtn.innerText = 'Отправка...';
+            submitBtn.innerHTML = '<span>Отправка...</span>';
 
             const dest = document.getElementById('destination').value;
             const service = document.getElementById('service').value;
@@ -390,11 +348,11 @@
                     document.getElementById('successMsg').style.display = 'block';
                     document.getElementById('siteOrderForm').reset();
                 } else {
-                    alert('Ошибка отправки сообщения: ' + (data.description || 'Проверьте токен бота.'));
+                    alert('Ошибка при отправке заявки: ' + (data.description || 'Неизвестная ошибка'));
                 }
             })
             .catch(err => {
-                alert('Сетевая ошибка при отправке заявки.');
+                alert('Ошибка сети при отправке. Проверьте соединение.');
             })
             .finally(() => {
                 submitBtn.disabled = false;
@@ -403,3 +361,5 @@
             });
         });
     </script>
+</body>
+</html>
