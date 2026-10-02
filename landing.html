@@ -303,7 +303,7 @@
         lucide.createIcons();
 
         // Настройки Telegram бота для приёма заявок с сайта
-        const BOT_TOKEN = '7611843794:AAEa35UoU_2i9B-kAt1J2e3x123456789'; // Ваш токен бота
+        const BOT_TOKEN = '8875398364:AAHF1LudhGumAycjkNk3CW9BTAiltFr74TU'; // Ваш токен бота
         const ADMIN_CHAT_ID = '6464412618'; // Ваш Telegram ID
 
         document.getElementById('siteOrderForm').addEventListener('submit', function(e) {
@@ -347,5 +347,59 @@
             });
         });
     </script>
-</body>
-</html>
+<script>
+        lucide.createIcons();
+
+        const BOT_TOKEN = 'ВСТАВЬТЕ_ВАШ_РЕАЛЬНЫЙ_ТОКЕН';
+        const ADMIN_CHAT_ID = '6464412618';
+
+        document.getElementById('siteOrderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const submitBtn = e.target.querySelector('.btn-submit');
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Отправка...';
+
+            const dest = document.getElementById('destination').value;
+            const service = document.getElementById('service').value;
+            const count = document.getElementById('itemCount').value;
+            const track = document.getElementById('trackInfo').value || 'Не указан';
+            const contact = document.getElementById('senderContact').value;
+            const recipient = document.getElementById('recipientInfo').value;
+
+            const textMessage = `🌐 <b>НОВАЯ ЗАЯВКА С САЙТА!</b>\n\n` +
+                `📍 <b>НП:</b> ${dest}\n` +
+                `🚚 <b>Сервис:</b> ${service}\n` +
+                `🔢 <b>Кол-во:</b> ${count} шт.\n` +
+                `🏷 <b>Трек/Код:</b> ${track}\n` +
+                `📞 <b>Заказчик:</b> ${contact}\n` +
+                `🎯 <b>Получатель:</b> ${recipient}`;
+
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: ADMIN_CHAT_ID,
+                    text: textMessage,
+                    parse_mode: 'HTML'
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) {
+                    document.getElementById('successMsg').style.display = 'block';
+                    document.getElementById('siteOrderForm').reset();
+                } else {
+                    alert('Ошибка отправки сообщения: ' + (data.description || 'Проверьте токен бота.'));
+                }
+            })
+            .catch(err => {
+                alert('Сетевая ошибка при отправке заявки.');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>Отправить заявку</span> <i data-lucide="send"></i>';
+                lucide.createIcons();
+            });
+        });
+    </script>
