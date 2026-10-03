@@ -8,7 +8,6 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            /* Инвертированная палитра: голубые карточки и элементы, белый текст и акценты */
             --card-bg: rgba(2, 132, 199, 0.92);
             --input-bg: rgba(3, 105, 161, 0.9);
             --accent-color: #ffffff;
@@ -44,7 +43,6 @@
             background-position: center;
             background-size: auto 100%;
             margin-bottom: 10px;
-            /* Перекрашиваем черную картинку орнамента в белый цвет */
             filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
         }
 
@@ -178,7 +176,6 @@
             transform: scale(0.98);
         }
 
-        /* Нижнее меню */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -217,7 +214,6 @@
             color: #ffffff;
         }
 
-        /* Модальные окна */
         .modal {
             display: none;
             position: fixed;
@@ -362,7 +358,7 @@
 
     <div class="header">
         <div class="chukchi-ornament"></div>
-        <h2>🐻‍❄️ Доставка на Чукотку</h2>
+        <h2>🐻‍❄️️ Доставка на Чукотку</h2>
         <p>Санкт-Петербург ➔ Чукотский АО</p>
     </div>
 
@@ -620,8 +616,58 @@
             9: { text: "🟢 Выдан получателю", class: "st-9" }
         };
 
+        // Загрузка актуальной истории заказов из центрального JSON на GitHub или из локальной памяти
         function openHistory() {
             closeModals();
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '<p style="text-align:center; color: var(--text-secondary); padding: 20px 0;">Синхронизация заказов...</p>';
+            document.getElementById('historyModal').style.display = 'block';
+
+            const userContact = (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.username) 
+                ? `@${tg.initDataUnsafe.user.username}` 
+                : document.getElementById('senderContact').value;
+
+            // Тянем актуальныйorders.json с GitHub Pages
+            fetch('https://raw.githubusercontent.com/mirodioneshop/DeliveryChukotka_miniapp/main/orders.json?v=' + Date.now())
+                .then(res => res.json())
+                .then(serverOrders => {
+                    let userOrdersHtml = '';
+                    let foundCount = 0;
+
+                    for (const [orderId, o] of Object.entries(serverOrders)) {
+                        // Сверяем контакты отправки
+                        if (userContact && o.sender && o.sender.toLowerCase().includes(userContact.toLowerCase().replace('@',''))) {
+                            foundCount++;
+                            userOrdersHtml += `
+                                <div class="history-card">
+                                    <div class="history-header">
+                                        <div>
+                                            <strong>Заказ ${orderId}</strong>
+                                        </div>
+                                        <span class="status-badge st-2">${o.status || 'В обработке'}</span>
+                                    </div>
+                                    <div>📍 <strong>НП:</strong> ${o.destination || '—'}</div>
+                                    <div>🚚 <strong>Сервис:</strong> ${o.service || '—'}</div>
+                                    <div>🎯 <strong>Получатель:</strong> ${o.recipient || '—'}</div>
+                                </div>
+                            `;
+                        }
+                    }
+
+                    if (foundCount > 0) {
+                        historyList.innerHTML = userOrdersHtml;
+                    } else {
+                        // Если на сервере пока нет заказов с таким логином, показываем локальные
+                        showLocalHistory();
+                    }
+                })
+                .catch(() => {
+                    // В случае отсутствия связи берем из локальной памяти
+                    showLocalHistory();
+                });
+        }
+
+        function showLocalHistory() {
             const historyList = document.getElementById('historyList');
             const orders = JSON.parse(localStorage.getItem('my_orders') || '[]');
 
@@ -647,8 +693,6 @@
                     `;
                 }).join('');
             }
-
-            document.getElementById('historyModal').style.display = 'block';
         }
 
         const form = document.getElementById('orderForm');
